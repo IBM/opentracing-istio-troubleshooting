@@ -1,0 +1,35 @@
+kind: Deployment
+apiVersion: apps/v1beta1
+metadata:
+  name: dbwrapper
+  labels:
+    app: dbwrapper
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dbwrapper
+        version: v1
+    spec:
+      containers:
+      - name: dbwrapper
+        image: ykoyfman/dbwrapper-notrace
+        imagePullPolicy: Always
+      imagePullSecrets:
+      - name: ibm-journey
+      restartPolicy: Always
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dbwrapper
+  labels:
+    app: dbwrapper
+spec:
+  selector:
+    app: dbwrapper
+  ports:
+    - port: 9080
+      name: http
+

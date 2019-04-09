@@ -1,0 +1,24 @@
+config:
+  plugin:
+    statsd:
+      host: "localhost"
+      port: 8125
+      prefix: "artillery"
+  target: http://169.55.65.202:31380
+  phases:
+    - duration: 5
+      arrivalRate: 1
+      rampTo: 3
+      name: "Application warmup"
+    - duration: 5
+      arrivalRate: 3
+      name: "Application max load"
+scenarios:
+  - name: "build instrument"
+    flow:
+      - post:
+          url: "/instrument-craft-shop/resources/instruments"
+          json:
+            type: "GUITAR"
+            price: "250"
+            

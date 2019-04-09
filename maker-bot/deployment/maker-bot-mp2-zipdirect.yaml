@@ -1,0 +1,41 @@
+kind: Deployment
+apiVersion: apps/v1beta1
+metadata:
+  name: maker-bot
+  labels:
+    app: maker-bot
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: maker-bot
+        version: v1
+#      annotations:
+#        sidecar.istio.io/inject: "false"
+    spec:
+      containers:
+      - name: maker-bot
+        image: ykoyfman/maker-bot-mp2-zip
+        imagePullPolicy: Always
+        env:
+        - name: PERSIST_URL
+          value: "http://dbwrapper:9080/dbwrapper/resources/persist"
+        - name: PIPELINE_URL
+          value: "http://pipeline-n1:9080/pipeline-node/resources/process"
+        - name: READ_TIMEOUT
+          value: "30"
+      restartPolicy: Always
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: maker-bot
+  labels:
+    app: maker-bot
+spec:
+  selector:
+    app: maker-bot
+  ports:
+    - port: 9080
+      name: http

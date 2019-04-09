@@ -1,0 +1,20 @@
+{
+  "name": "journey-pipeline-node",
+  "version": "1.0.0",
+  "description": "sample app for Istio tracing demo",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cfenv": "^1.1.0",
+    "express": "^4.16.4",
+    "log4js": "^3.0.6",
+    "request": "^2.88.0"
+  },
+  "engines": {
+    "node": "6.x"
+  }
+}

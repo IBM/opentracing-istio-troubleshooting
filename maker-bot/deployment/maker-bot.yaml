@@ -1,0 +1,71 @@
+kind: Deployment
+apiVersion: apps/v1beta1
+metadata:
+  name: maker-bot
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: maker-bot
+        version: v1
+#      annotations:
+#        sidecar.istio.io/inject: "false"
+    spec:
+      containers:
+      - name: maker-bot
+        image: registry.ng.bluemix.net/journeys/maker-bot-trace:1
+        imagePullPolicy: Always
+        livenessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - curl -f localhost:9080/
+          initialDelaySeconds: 30
+        readinessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - curl -f localhost:9080/maker-bot/resources/health
+          initialDelaySeconds: 40
+      imagePullSecrets:
+      - name: ibm-journey
+      restartPolicy: Always
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: maker-bot
+  labels:
+    app: maker-bot
+spec:
+  selector:
+    app: maker-bot
+  ports:
+    - port: 9080
+      name: http
+---
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: maker-bot
+  annotations:
+    kubernetes.io/ingress.class: istio
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /maker-bot/jobs
+        backend:
+          serviceName: maker-bot
+          servicePort: 9080
+      - path: /maker-bot/resources
+        backend:
+          serviceName: maker-bot
+          servicePort: 9080
+      - path: /maker-bot/health
+        backend:
+          serviceName: maker-bot
+          servicePort: 9080

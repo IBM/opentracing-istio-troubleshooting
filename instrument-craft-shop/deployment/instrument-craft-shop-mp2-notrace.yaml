@@ -1,0 +1,33 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: instrument-craft-shop
+  labels:
+    app: instrument-craft-shop
+spec:
+  selector:
+    app: instrument-craft-shop
+  ports:
+    - port: 9080
+      name: http
+  type: NodePort
+---
+kind: Deployment
+apiVersion: apps/v1beta1
+metadata:
+  name: instrument-craft-shop
+  labels:
+    app: instrument-craft-shop
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: instrument-craft-shop
+        version: v1
+    spec:
+      containers:
+      - name: instrument-craft-shop
+        image: ykoyfman/instrument-craft-shop-mp2-notrace
+        imagePullPolicy: Always
+      restartPolicy: Always

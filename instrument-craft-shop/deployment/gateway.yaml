@@ -1,0 +1,37 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: shop-gw
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: craft-shop-svc
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - shop-gw
+  http:
+  - match:
+    - uri:
+        exact: /instrument-craft-shop/resources/health
+    - uri:
+        exact: /instrument-craft-shop/resources/instruments
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: instrument-craft-shop
+        port:
+          number: 9080
