@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: pipeline-node
-        image: ykoyfman/pipeline_node.zip
+        image: journeycode/pipeline_node.zip
         imagePullPolicy: Always
         env:
         - name: NEXT_STEP_URL

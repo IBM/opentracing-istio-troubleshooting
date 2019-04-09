@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: pipeline-node
-        image: ykoyfman/pipeline_node.zip
+        image: journeycode/pipeline_node.zip
         resources:
           limits:
             cpu: "0.1"

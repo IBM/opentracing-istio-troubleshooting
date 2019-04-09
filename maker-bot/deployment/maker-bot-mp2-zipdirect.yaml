@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: maker-bot
-        image: ykoyfman/maker-bot-mp2-zip
+        image: journeycode/maker-bot-mp2-zip
         imagePullPolicy: Always
         env:
         - name: PERSIST_URL

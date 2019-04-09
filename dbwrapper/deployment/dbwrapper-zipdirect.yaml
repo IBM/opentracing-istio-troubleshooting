@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: dbwrapper
-        image: ykoyfman/dbwrapper-zip
+        image: journeycode/dbwrapper-zip
         imagePullPolicy: Always
       imagePullSecrets:
       - name: ibm-journey

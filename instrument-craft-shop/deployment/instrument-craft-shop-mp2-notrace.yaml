@@ -28,6 +28,6 @@ spec:
     spec:
       containers:
       - name: instrument-craft-shop
-        image: ykoyfman/instrument-craft-shop-mp2-notrace
+        image: journeycode/instrument-craft-shop-mp2-notrace
         imagePullPolicy: Always
       restartPolicy: Always

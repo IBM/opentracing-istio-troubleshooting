@@ -286,6 +286,7 @@ Error Scenario: Load testing and network timeout
 
 We'll use Artillery (http://artillery.io), a service load testing tool to drive many requests to our cluster. Once the run is complete, we can examine the distributed tracing dashboard to understand how the service behaves and examine any errors.
 
+**Note:** the `target` line in the `load-test.yml` file should be updated to the IP/port found earlier.
 
 ```
 $ npm install -g artillery
