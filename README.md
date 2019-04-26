@@ -360,7 +360,7 @@ Note: Because the traces don't retain information about path parameters or paylo
 Error Scenario: misconfiguration
 ------------------------
 
-To begin with, we'll look at a relatively simple situation: for some reason, a service is unavailable.
+In this section, we'll look at a relatively simple situation: for some reason, a service is unavailable.
 In a microservice environment, sometimes, a service isn't ready, or has failed for some purpose. Another service attempting to call this service will get an error.  This jumps out immediately in the distributed tracing system as some spans just don't appear.  In this case, a pipeline node did not complete its startup and the web application was not ready to receive requests.  We can see it's missing from the trace entirely and if we dig deeper we find a "404" message in the maker-bot:
 
 ![4041](images/macimg/404-service-not-started-1.png)
