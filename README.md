@@ -235,7 +235,7 @@ COPY target/liberty/wlp/usr/extension /opt/ol/wlp/usr/extension/
 
 3. Changes in `pom.xml`
 
-These sections in the `pom.xml` are necessary to download the zipkin user feature (see the full `pom.xml` here: [link to github])
+These sections in the `pom.xml` are necessary to download the zipkin user feature.
 
 ```xml
     <properties>
@@ -312,7 +312,7 @@ Summary report @ 14:59:53(-0400) 2019-04-04
 
 ```
 
-This launched 28 requests over the course of 10 seconds; the application successfully completed only 8 out of the 28 requests. If we load the service in the Jaeger UI and sort by most recent traces, Jager builds a scatter plot showing at a glance how the service performed; we can examine the outliers by clicking on them (red arrow).
+This launched 28 requests over the course of 10 seconds; based on HTTP return codes, we can infer that the application successfully completed only 20 of the requests. If we load the service in the Jaeger UI and sort by most recent traces, Jager builds a scatter plot showing at a glance how the service performed; we can examine the outliers by clicking on them (red arrow).
 
 ![arch](images/macimg/artillery-result1.png)
 
@@ -328,7 +328,7 @@ If we follow the `x-request-id` value from the envoy trace entry for that proces
 
 ![arch](images/macimg/timeout3.png)
 
-Normally, you would want to aggregate your logs in a central location [link to Cloud LogDNA service here] but for the purpose of our demo, we can check the pod with `kubectl logs` and filter by request-id. We find it ran for 19370ms, causing a connection error in the top level `maker-bot` service, which has client connections set to timeout after 20 seconds.
+Normally, you would want to aggregate your logs in a central location (See [LogDNA in IBM Cloud](https://www.ibm.com/blogs/bluemix/2018/10/increase-your-observability-in-the-cloud-ibm-log-analysis-with-logdna/))  but for the purpose of our demo, we can check the pod with `kubectl logs` and filter by request-id. We find it ran for 19370ms, causing a connection error in the top level `maker-bot` service, which has client connections set to timeout after 20 seconds.
 
 ```
 
@@ -360,8 +360,8 @@ Note: Because the traces don't retain information about path parameters or paylo
 Error Scenario: misconfiguration
 ------------------------
 
-In this section, we'll look at a relatively simple situation: for some reason, a service is unavailable.
-In a microservice environment, sometimes, a service isn't ready, or has failed for some purpose. Another service attempting to call this service will get an error.  This jumps out immediately in the distributed tracing system as some spans just don't appear.  In this case, a pipeline node did not complete its startup and the web application was not ready to receive requests.  We can see it's missing from the trace entirely and if we dig deeper we find a "404" message in the maker-bot:
+In this section, we'll look at a relatively simple situation: an internal service can't be reached.
+In a Kubernetes cluster it can happen that a service isn't ready (possibly still deploying) or is listening at an URL that doesn't match a client's configuration. Another service attempting to call this service will get an error.  This jumps out immediately in the distributed tracing system as some spans just don't appear.  In this case, a pipeline node did not complete its startup and the web application was not ready to receive requests.  We can see it's missing from the trace entirely and if we dig deeper we find a "404" message in the maker-bot:
 
 ![4041](images/macimg/404-service-not-started-1.png)
 ![4041](images/macimg/404-service-not-started-2a.png)
